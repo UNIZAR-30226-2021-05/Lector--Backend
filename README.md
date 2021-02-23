@@ -1,9 +1,9 @@
 #Software requerido pip3  
-python-3.6.9  
+python3  
 Django-3.1.7  
 
 # Instalar librerías necesarias:
-python -r "requirements.txt"  
+pip3 install -r "requirements.txt"  
 
 /////////////////DESARROLLO//////////////////
 
@@ -18,7 +18,7 @@ source /usr/local/bin/virtualenvwrapper.sh
 ##Actualizar cambios
 source ~/.bashrc
 ##Crear entorno virtual llamado 'lector'
-mkvirtualenv --python=python3.6 lector
+mkvirtualenv --python=python3 lector
 #Comandos útiles
 comandos:
     deactivate              //Salir de entorno actual
