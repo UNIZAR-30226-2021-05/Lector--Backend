@@ -25,8 +25,7 @@ SECRET_KEY = '5@cs0s37@f1=wx2oa1-fijh20aix-il0nxferw0f=fn3*z$rw+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -77,11 +76,14 @@ WSGI_APPLICATION = 'lector.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'lector',
+        'USER': 'lectoruser',
+        'PASSWORD': 'lectoruser',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
