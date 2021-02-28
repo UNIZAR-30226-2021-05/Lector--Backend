@@ -36,5 +36,7 @@ heroku create lector
 heroku git:remote -a lector
 #Ejecutar script de despliegue
 bash despliegue.sh
-```
-
+```  
+### Otros aspectos  
+Actualizar postgres -> python3 manage.py migrate  
+Crear admin django -> python3 manage.py superuser  

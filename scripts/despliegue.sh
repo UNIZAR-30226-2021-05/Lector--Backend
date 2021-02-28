@@ -1,11 +1,19 @@
 #!/bin/bash
+######################################################################
+# @author      : grupo 5
+# @file        : despliegue.sh
+# @created     : domingo feb 28, 2021 19:19:01 CET
+#
+# @description : Despliegue de repositorio git en heroku
+######################################################################
 #Cambiar a directorio raiz del proyecto
 cd ..
+#Actualizar librerías necesarias para heroku
 pip freeze | grep -v "pkg-resources" > requirements.txt
+#Actualizar repositorio git
 git add .
 echo "Añade un comentario al git commit: "
 read comentario
-#Actualizar commit en git
 git commit -m "$comentario"
 #Actualizar commit en heroku
 heroku maintenance:on
