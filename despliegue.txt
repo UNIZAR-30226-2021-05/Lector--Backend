@@ -1,0 +1,16 @@
+#Desplegar aplicación
+git add .
+git commit -m
+git push heroku
+
+#Visualizar aplicación desplegada
+heroku open
+
+#ver log del servidor en producción
+heroku logs --tail --app rocky-waters-55301
+
+#Probar despliegue en local
+heroku local
+
+#Dejar de dar servicio
+heroku ps:scale web=0
