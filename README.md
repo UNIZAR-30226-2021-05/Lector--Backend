@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ## Software requerido 
+=======
+## Software requerido  
+>>>>>>> d25072045045442d9d9efaa213ad740ecbabb723
 pip3  
 python3    
 Django-3.1.7    
@@ -47,3 +51,6 @@ python3 manage.py superuser
 heroku pg:reset
 heroku pg:push lector DATABASE_URL --app rocky-waters-55301
 ```
+### Otros aspectos  
+Actualizar postgres -> python3 manage.py migrate  
+Crear admin django -> python3 manage.py superuser  
