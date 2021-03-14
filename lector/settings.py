@@ -36,6 +36,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'usuario.apps.UsuarioConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
+
+    'rest_auth',
+
+    'rest_auth.registration',
+    'allauth',
+    'allauth.account',
+    'django.contrib.sites',
+
 ]
 
 MIDDLEWARE = [
@@ -51,7 +62,6 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'lector.urls'
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -77,7 +87,7 @@ WSGI_APPLICATION = 'lector.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'lector',
+        'NAME': 'lectoruser',
         'USER': 'lectoruser',
         'PASSWORD': 'lectoruser',
         'HOST': 'localhost',
@@ -102,6 +112,59 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+PASSWORD_HASHERS = (
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+    'django.contrib.auth.hashers.SHA1PasswordHasher',
+    'django.contrib.auth.hashers.MD5PasswordHasher',
+    'django.contrib.auth.hashers.CryptPasswordHasher'
+)
+
+LOGGING = {
+     'version': 1,
+     'disable_existing_loggers': False,
+     'formatters': {
+         'verbose': {
+             'format': '%(asctime)s-%(module)s-%(levelname)s :: %(message)s'
+         },
+         'simple': {
+             'format': '%(levelname)s :: %(message)s'
+         }
+     },
+     'handlers': {
+           'console': {
+             'level': 'DEBUG',
+             'class': 'logging.StreamHandler',
+             'formatter': 'verbose'
+         },
+     },
+     'loggers': {
+         'django': {
+             'handlers': ['console'],
+             'propagate': False,
+             'level': 'DEBUG'
+         },
+     }
+ }
+
+
+# Configuración email
+SITE_ID = 1
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        #'rest_framework.authentication.TokenAuthentication',  
+        #'rest_framework.authentication.SessionAuthentication',  
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [],
+}
+
+
+
+
 
 
 # Internationalization
