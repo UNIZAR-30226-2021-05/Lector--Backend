@@ -1,0 +1,27 @@
+
+
+#########################################
+# AUTENTICACION TOKEN                   #
+#########################################
+
+#Obtener token usuario admin
+python3 manage.py drf_create_token admin
+
+#Acceder endpoint /usuario/usuario GET protegido con token
+http http://127.0.0.1:8000/usuario/usuario/dd 'Authorization: Token 52bed5d5d207a09c258f0d9bdaa52a23de7d0887
+
+#Registrar nuevo usuario (devuelve {'key':25..}, el token)
+http -f POST http://127.0.0.1:8000/usuario/rest-auth/registration/ username=diego email=ejemplo@e.com password1=ejemplopass password2=ejemplopass
+
+
+#Logear usuario (devuelve {key:25..}, el token)
+http -f POST http://127.0.0.1:8000/usuario/rest-auth/login/ username=diego password=ejemplopass
+
+
+
+#########################################
+USUARIO                                 #
+#########################################
+
+#Modificar perfil
+http PUT 127.0.0.1:8000/usuario/test5 username=test5 first_name=jhon last_name=kenedy email=j@j.com
