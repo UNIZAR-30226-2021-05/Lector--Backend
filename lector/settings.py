@@ -121,7 +121,7 @@ PASSWORD_HASHERS = (
     'django.contrib.auth.hashers.MD5PasswordHasher',
     'django.contrib.auth.hashers.CryptPasswordHasher'
 )
-
+'''
 LOGGING = {
      'version': 1,
      'disable_existing_loggers': False,
@@ -148,18 +148,27 @@ LOGGING = {
          },
      }
  }
+'''
 
+#Para extender la funcionalidad al crear usuario
+ACCOUNT_ADAPTER = 'usuario.adapters.UserAccountAdapter'
+
+
+#Extension del abstract user
+AUTH_USER_MODEL = 'usuario.Usuario'
 
 # Configuración email
 SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+#Configuracion allauth
+#ACCOUNT_USERNAME_REQUIRED = False
+
+#Configuracion autenticacion
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        #'rest_framework.authentication.TokenAuthentication',  
-        #'rest_framework.authentication.SessionAuthentication',  
+        'rest_framework.authentication.TokenAuthentication',  
     ],
-    'DEFAULT_PERMISSION_CLASSES': [],
 }
 
 
