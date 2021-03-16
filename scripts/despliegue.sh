@@ -12,7 +12,7 @@ cd ..
 pip freeze | grep -v "pkg-resources" > requirements.txt
 #Actualizar repositorio git
 git add .
-#echo "Añade un comentario al git commit: "
+echo "Añade un comentario al git commit: "
 read comentario
 git commit -m "$comentario"
 #Actualizar commit en heroku
