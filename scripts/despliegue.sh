@@ -17,7 +17,7 @@ read comentario
 git commit -m "$comentario"
 #Actualizar commit en heroku
 heroku maintenance:on
-git push heroku
+git push -f heroku
 heroku maintenance:off
 #Visualizar aplicación desplegada
 heroku open
