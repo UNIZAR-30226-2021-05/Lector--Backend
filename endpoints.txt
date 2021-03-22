@@ -26,28 +26,5 @@ USUARIO                                 #
 #Modificar perfil
 http PUT 127.0.0.1:8000/usuario/test5 username=test5 first_name=jhon last_name=kenedy email=j@j.com
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-----PATCHES
-python manage syncdb --all
+#Modificar preferencias
+http -f PUT 127.0.0.1:8000/usuario/preferencias/dtest1 tamanoLetra=14

@@ -31,7 +31,7 @@ class Usuario(AbstractUser):
         """
         return self.username
 
-class Configuracion(models.Model):
+class Preferencias(models.Model):
     """
     Modelo de configuracion, con tamanoLetra, tipoLetra, colorBg y colorLetra
     """
@@ -54,4 +54,4 @@ class Configuracion(models.Model):
         """
         Cadena para representar el objeto Usuario
         """
-        return str(self.tamanoLetra)
+        return str(self.usuario.username)
