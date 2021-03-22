@@ -12,9 +12,8 @@ class UsuarioSerializer(serializers.ModelSerializer):
         model = Usuario
         fields = [
             "username",
-            "first_name",
-            "last_name",
             "email",
+            "pathFoto",
         ]
 
 class PreferenciasSerializer(serializers.ModelSerializer):

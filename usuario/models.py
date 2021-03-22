@@ -18,7 +18,7 @@ class Usuario(AbstractUser):
     date_joined  | timestamp with time zone |           | not null | 
 
     """
-    pathFoto = models.CharField(max_length=150)
+    pathFoto = models.CharField(max_length=150, default="url de foto no especificada")
 
 
 
