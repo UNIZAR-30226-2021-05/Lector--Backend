@@ -64,6 +64,7 @@ MIDDLEWARE = [
     #ADDED
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
 ]
 
 ROOT_URLCONF = 'lector.urls'
@@ -154,6 +155,9 @@ LOGGING = {
      }
  }
 '''
+
+SECURE_SSL_REDIRECT = True # [1]
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 #Para extender la funcionalidad al crear usuario
 ACCOUNT_ADAPTER = 'usuario.adapters.UserAccountAdapter'
