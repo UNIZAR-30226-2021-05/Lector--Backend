@@ -18,6 +18,7 @@ class Usuario(AbstractUser):
     date_joined  | timestamp with time zone |           | not null | 
 
     """
+    pathFoto = models.CharField(max_length=150)
 
 
 
