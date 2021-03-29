@@ -16,10 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import RedirectView
+from django.conf.urls import url
 
 
 urlpatterns = [
     #path('', RedirectView.as_view(url='usuario/', permanent=True)),
     path('admin/', admin.site.urls),
     path('usuario/',include('usuario.urls')),
+    path('libro/', include('libro.urls')),
+    #Autenticación con Allauth
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
 ]

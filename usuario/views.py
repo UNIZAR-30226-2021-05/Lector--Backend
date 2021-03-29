@@ -1,32 +1,50 @@
-from django.shortcuts import render
-from django.contrib.auth.hashers import make_password
-from rest_framework import viewsets
-from rest_framework import permissions
 from .serializers import UsuarioSerializer
-from .models import Usuario
+from .models import Usuario, Configuracion
 
-
-class UsuarioViewSet(viewsets.ModelViewSet):
-    queryset= Usuario.objects.all()
-    serializer_class = UsuarioSerializer
-    permission_classes = [permissions.IsAuthenticated]
+from rest_framework.views import APIView
+from rest_framework.response import Response 
+from rest_framework.permissions import IsAuthenticated
 
 
 
+#GET /usuario/<id> -> SELECT  nombre, apellidos, correo
+#PUT /usuario/<id> -> UPDATE usuario
+
+#GET /configuracion/<id_usuario> -> SELECT * from configuracion
+#PUT /configuracion/<id_usuario> -> UPDATE configuracion
+
+
+class usuarioView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, pk):
+        '''
+        Devuelve el perfil del usuario
+        '''
+        user= Usuario.objects.get(username=pk)
+        serializer = UsuarioSerializer(user)
+        return Response(serializer.data)
+
+    def put(self, request, pk):
+        '''
+        Modifica el perfil del usuario
+        '''
+        usuario = Usuario.objects.get(username=pk)
+        serializer = UsuarioSerializer(usuario, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 '''
-def index(request):
-    b = Usuario(nickname='test',password=make_password('a', None, 'md5'),correo='a',nombre='a',apellidos='a',esAdmin=False)
-    b.save()
-    
-    num_users=Usuario.objects.all().count()
-    num_admins=Usuario.objects.filter(esAdmin__exact='True').count()
+#LISTA USUARIO
+class usuarioListView(APIView):
+    permission_classes = (IsAuthenticated,)
 
-    # Renderiza la plantilla HTML index.html con los datos en la variable contexto
-    return render(
-        request,
-        'user.html',
-        context={'num_users':num_users, 'num_admins':num_admins},
-    )
+    def get(self, request):
+        queryset= Usuario.objects.all()
+        serializer = UsuarioSerializer(queryset, many = True)
+        return Response(serializer.data)
 '''
+
