@@ -18,6 +18,7 @@ class Usuario(AbstractUser):
     date_joined  | timestamp with time zone |           | not null | 
 
     """
+    pathFoto = models.CharField(max_length=150, default="url de foto no especificada")
 
 
 
@@ -31,7 +32,7 @@ class Usuario(AbstractUser):
         """
         return self.username
 
-class Configuracion(models.Model):
+class Preferencias(models.Model):
     """
     Modelo de configuracion, con tamanoLetra, tipoLetra, colorBg y colorLetra
     """
@@ -54,4 +55,4 @@ class Configuracion(models.Model):
         """
         Cadena para representar el objeto Usuario
         """
-        return str(self.tamanoLetra)
+        return str(self.usuario.username)
