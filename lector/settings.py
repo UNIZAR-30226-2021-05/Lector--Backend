@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'usuario.apps.UsuarioConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'libro.apps.LibroConfig',
 
     'rest_auth',
 
