@@ -29,7 +29,7 @@ class Usuario(AbstractUser):
         """
         Cadena para representar el objeto Usuario
         """
-        return self.nickname
+        return self.username
 
 class Configuracion(models.Model):
     """

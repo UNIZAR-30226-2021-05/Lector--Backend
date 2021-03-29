@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'rest_auth',
 
+    'allauth.socialaccount',#borrar usuario
     'rest_auth.registration',
     'allauth',
     'allauth.account',
@@ -163,7 +164,11 @@ SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 #Configuracion allauth
-#ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email' #Permitir logeo con email
+AUTHENTICATION_BACKENDS = ( #Necesario para permitir logeo con email
+"django.contrib.auth.backends.ModelBackend",
+"allauth.account.auth_backends.AuthenticationBackend"
+)
 
 #Configuracion autenticacion
 REST_FRAMEWORK = {
