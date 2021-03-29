@@ -1,4 +1,5 @@
 import dropbox
+import os.path
 
 DROPBOX_OAUTH2_TOKEN = 'Me56EUxeX0MAAAAAAAAAAXkCEw6O5oYINF1YCi5PoGZm9xjFhQxFswcp2o_Kla8L'
 file_location = "/brainbook/"
@@ -9,7 +10,11 @@ def upload_file (file):
         dbx.files_upload(f.read(),file_location+file , mode=dropbox.files.WriteMode.overwrite)
 
 def read_file (file):
-    _, f =dbx.files_download(file_location+file)
-    f=f.content
-    f=f.decode("utf-8")
-    print(f)
+    if os.path.isfile(file):
+        print("File exist")
+    else:
+        print("File not exist")
+        _, f =dbx.files_download(file_location+file)
+        f=f.content
+        f=f.decode("utf-8")
+        print(f)

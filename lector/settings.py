@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'django.contrib.sites',
+    'django_dropbox',
 
 ]
 
@@ -161,11 +162,6 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [],
 }
-
-
-
-
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
