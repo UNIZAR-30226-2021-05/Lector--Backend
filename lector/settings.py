@@ -48,9 +48,15 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'django.contrib.sites',
+<<<<<<< HEAD
     'django_dropbox',
+=======
+    'corsheaders',
+>>>>>>> main
 
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,6 +68,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #ADDED
     'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    #'django.middleware.security.SecurityMiddleware', //PARA HTTPS
 ]
 
 ROOT_URLCONF = 'lector.urls'
@@ -152,6 +160,9 @@ LOGGING = {
      }
  }
 '''
+
+SECURE_SSL_REDIRECT = False # [1] PARA HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #PARA WEB
 
 #Para extender la funcionalidad al crear usuario
 ACCOUNT_ADAPTER = 'usuario.adapters.UserAccountAdapter'
