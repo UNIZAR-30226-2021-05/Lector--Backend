@@ -48,11 +48,8 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'django.contrib.sites',
-<<<<<<< HEAD
     'django_dropbox',
-=======
     'corsheaders',
->>>>>>> main
 
 ]
 
