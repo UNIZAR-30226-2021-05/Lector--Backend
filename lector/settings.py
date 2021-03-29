@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'usuario.apps.UsuarioConfig',
     'rest_framework',
     'rest_framework.authtoken',
+    'libro.apps.LibroConfig',
 
     'rest_auth',
 
@@ -64,7 +65,7 @@ MIDDLEWARE = [
     #ADDED
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.security.SecurityMiddleware',
+    #'django.middleware.security.SecurityMiddleware', //PARA HTTPS
 ]
 
 ROOT_URLCONF = 'lector.urls'
@@ -156,8 +157,8 @@ LOGGING = {
  }
 '''
 
-SECURE_SSL_REDIRECT = True # [1]
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = False # [1] PARA HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #PARA WEB
 
 #Para extender la funcionalidad al crear usuario
 ACCOUNT_ADAPTER = 'usuario.adapters.UserAccountAdapter'
