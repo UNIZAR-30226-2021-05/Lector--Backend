@@ -1,4 +1,4 @@
-from .models import Configuracion
+from .models import Preferencias
 from allauth.account.adapter import DefaultAccountAdapter
 
 class UserAccountAdapter(DefaultAccountAdapter):
@@ -10,5 +10,5 @@ class UserAccountAdapter(DefaultAccountAdapter):
         registrado.
         """
         user = super(UserAccountAdapter, self).save_user(request, user, form, commit=True)
-        config = Configuracion(usuario=user)
-        config.save()
+        pref = Preferencias(usuario=user)
+        pref.save()
