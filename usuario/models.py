@@ -1,5 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+import sys
+import os.path
+
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+from libro.models import Libro
+
 
 
 class Usuario(AbstractUser):
@@ -20,17 +26,31 @@ class Usuario(AbstractUser):
     """
     pathFoto = models.CharField(max_length=150, default="url de foto no especificada")
 
-
+    Libro = models.ManyToManyField(
+        Libro,
+        blank=True,
+        through="Guardar"
+    )
 
     # Métodos
-    '''def save(self, *args, **kwargs):
+    """
+        def save(self, *args, **kwargs):
         self.password = make_password(self.password, None, 'pbkdf2_sha256')
-       ''' 
+    """ 
     def __str__(self):
         """
         Cadena para representar el objeto Usuario
         """
         return self.username
+
+
+class Guardar(models.Model):
+    usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
+    puntuacion = models.PositiveIntegerField(default=0)
+    currentOffset = models.PositiveIntegerField(default=0)
+    leyendo = models.BooleanField(default=False)
+
 
 class Preferencias(models.Model):
     """
