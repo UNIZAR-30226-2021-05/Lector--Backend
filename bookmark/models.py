@@ -1,4 +1,9 @@
 from django.db import models
+import sys
+
+sys.path.append('/home/alonso/Documentos/Uni/3o/cuatri2/PS/Lector--Backend')#TODO: Cambiar por path bueno
+from libro.models import Libro
+from usuario.models import Usuario
 
 # Create your models here.
 class Bookmark(models.Model):
