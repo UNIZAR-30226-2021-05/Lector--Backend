@@ -5,6 +5,7 @@ Brlapi==0.7.0
 certifi==2020.12.5
 cffi==1.14.5
 chardet==4.0.0
+<<<<<<< HEAD
 chrome-gnome-shell==0.0.0
 click==7.1.2
 colorama==0.4.3
@@ -14,6 +15,9 @@ cupshelpers==1.0
 dbus-python==1.2.16
 decorator==4.4.2
 defer==1.0.6
+=======
+cryptography==3.4.6
+>>>>>>> 773903dbf0294307cbb32eab19554432c77fa544
 defusedxml==0.7.1
 distlib==0.3.1
 distro==1.5.0
@@ -21,14 +25,23 @@ distro-info===0.23ubuntu1
 dj-database-url==0.5.0
 Django==3.1.7
 django-allauth==0.44.0
+<<<<<<< HEAD
 django-rest-auth==0.9.5
 djangorestframework==3.12.2
 filelock==3.0.12
+=======
+django-cors-headers==3.7.0
+django-dropbox==0.0.2
+django-rest-auth==0.9.5
+djangorestframework==3.12.2
+dropbox==11.5.0
+>>>>>>> 773903dbf0294307cbb32eab19554432c77fa544
 gunicorn==20.0.4
 hidpidaemon==18.4.6
 httpie==2.2.0
 httplib2==0.18.1
 idna==2.10
+<<<<<<< HEAD
 jeepney==0.4.3
 kernelstub==3.1.4
 keyring==21.3.0
@@ -45,6 +58,11 @@ pop-transition==1.1.2
 protobuf==3.12.3
 psutil==5.8.0
 pycairo==1.16.2
+=======
+oauthlib==3.1.0
+ply==3.11
+psycopg2==2.7.7
+>>>>>>> 773903dbf0294307cbb32eab19554432c77fa544
 pycparser==2.20
 pycups==2.0.1
 pydbus==0.6.0
@@ -75,6 +93,7 @@ simplejson==3.17.0
 sip==4.19.24
 six==1.15.0
 sqlparse==0.4.1
+<<<<<<< HEAD
 stevedore==3.3.0
 systemd-python==234
 thefuck==3.30
@@ -88,5 +107,9 @@ virtualenv-clone==0.5.4
 virtualenvwrapper==4.8.4
 wadllib==1.3.4
 wcwidth==0.2.5
+=======
+stone==3.2.1
+urllib3==1.26.3
+>>>>>>> 773903dbf0294307cbb32eab19554432c77fa544
 whitenoise==5.2.0
 xkit==0.0.0
