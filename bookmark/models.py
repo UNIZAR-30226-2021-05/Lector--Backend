@@ -2,7 +2,7 @@ from django.db import models
 import sys
 import os.path
 
-#sys.path.append('/home/alonso/Documentos/Uni/3o/cuatri2/PS/Lector--Backend')#TODO: Cambiar por path bueno
+#sys.path.append('/home/alonso/Documentos/Uni/3o/cuatri2/PS/Lector--Backend')
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 
 from libro.models import Libro
@@ -15,6 +15,7 @@ class Bookmark(models.Model):
     cuerpo = models.CharField(max_length=500, blank=True, null=True)
     offset = models.PositiveBigIntegerField()
     titulo = models.CharField(max_length=20)
+    
     Libro = models.ForeignKey(
         Libro,
         on_delete=models.CASCADE,
