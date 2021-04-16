@@ -10,7 +10,7 @@ class Autor(models.Model):
 # Create your models here.
 class Libro(models.Model):
     """
-    Modelo de libro, con ISBN, path, titulo, path a portada, sinopsis, formato, ¿¿puntuacion??
+    Modelo de libro, con ISBN, path, titulo, path a portada, sinopsis, formato
     """
 
     # Campos
