@@ -18,3 +18,11 @@ class LibroSerializer(serializers.ModelSerializer):
             "titulo",
             "sinopsis",
         ]
+    
+class TextSerializer(serializers.Serializer):
+    """
+    API endpoint
+    """
+    text=serializers.CharField()
+    finalOffset=serializers.IntegerField()
+    realCharacters=serializers.IntegerField()
