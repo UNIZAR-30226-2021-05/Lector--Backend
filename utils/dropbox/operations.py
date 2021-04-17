@@ -3,14 +3,17 @@ import textract
 import os.path
 
 DROPBOX_OAUTH2_TOKEN = 'Me56EUxeX0MAAAAAAAAAAXkCEw6O5oYINF1YCi5PoGZm9xjFhQxFswcp2o_Kla8L'
-file_location = "/brainbook/"
+file_location = "/brainbook/books/"
+image_location = "/brainbook/image/"
 split_file=["titulo","tipo_fich"]
 
 
 dbx = dropbox.Dropbox(DROPBOX_OAUTH2_TOKEN)
 def upload_file (file):
+    dropbox_file=file.rsplit("/",1)
+    print(dropbox_file)
     with open(file,"rb") as f:
-        dbx.files_upload(f.read(),file_location+file , mode=dropbox.files.WriteMode.overwrite)
+        dbx.files_upload(f.read(),file_location+dropbox_file[1] , mode=dropbox.files.WriteMode.overwrite)
 
 def read_file (file):
     split_file = file.split(".",1)
@@ -28,3 +31,11 @@ def read_file (file):
         local_file.close()
         dropbox_file.close()
         os.remove(file)  
+
+def upload_image (image):
+    with open(image,"rb") as img:
+        dropbox_file=image.rsplit("/",1)
+        print(dropbox_file)
+        dbx.files_upload(img.read(),image_location+dropbox_file[1] , mode=dropbox.files.WriteMode.overwrite)
+
+#def get_url (image):
