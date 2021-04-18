@@ -42,8 +42,12 @@ class textView(APIView):
         '''
         Devuelve el numero de caracteras a partir del offset del libro solicitado
         '''
-        read_file(file)
-        textField= textFieldView(text="hola",finalOffset=5,realCharacters=10)
+        name_local=read_file(file)
+        print("---------------------------->Leido")
+        f=open(name_local, 'r')
+        f.seek(ini_offset,0)
+        text=f.read(characters)
+        textField= textFieldView(text=text,finalOffset=ini_offset+characters,realCharacters=characters)
         serializer = TextSerializer(textField)
         return Response(serializer.data)
 

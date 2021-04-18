@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.realpath(__file__)))
 DROPBOX_OAUTH2_TOKEN = 'Me56EUxeX0MAAAAAAAAAAXkCEw6O5oYINF1YCi5PoGZm9xjFhQxFswcp2o_Kla8L'
 dropbox_file_location = "/brainbook/books/"
 dropbox_image_location = "/brainbook/image/"
-local_file_location = "../../libros/"
+local_file_location = "./libros/"
 split_file=["titulo","tipo_fich"]
 
 
@@ -23,17 +23,20 @@ def read_file (file):
     split_file = file.split(".",1)
     txt_file = split_file[0]+"local.txt"
     if os.path.isfile(local_file_location+txt_file):
-        print("File exist")
+        print("---------------------------->File exist")
     else:
-        print("File not exist")
+        print("---------------------------->File not exist")
         dropbox_file=open(local_file_location+file,"x")
+        print("---------------------------->dropbox_file")
         local_file = open (local_file_location+txt_file,'wb')
+        print("---------------------------->local_file")
         dbx.files_download_to_file(local_file_location+file,dropbox_file_location+file)
         text=textract.process(local_file_location+file, method='pdfminer') 
         local_file.write(text)
         local_file.close()
         dropbox_file.close()
-        os.remove(local_file_location+file)  
+        os.remove(local_file_location+file)
+    return  local_file_location+txt_file
 
 def upload_image (image):
     with open(image,"rb") as img:
