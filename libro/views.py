@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .serializers import*
 from .models import Libro
+from utils.dropbox.operations import* 
 
 from rest_framework.views import APIView
 from rest_framework.response import Response 
@@ -41,6 +42,7 @@ class textView(APIView):
         '''
         Devuelve el numero de caracteras a partir del offset del libro solicitado
         '''
+        read_file(file)
         textField= textFieldView(text="hola",finalOffset=5,realCharacters=10)
         serializer = TextSerializer(textField)
         return Response(serializer.data)
