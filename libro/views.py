@@ -6,10 +6,12 @@ from utils.dropbox.operations import*
 from rest_framework.views import APIView
 from rest_framework.response import Response 
 
+from rest_framework import generics
+
 # Create your views here.
 class textFieldView():
 
-    def __init__ (self  , text, finalOffset, realCharacters):
+    def __init__ (self, text, finalOffset, realCharacters):
         self.text=text
         self.finalOffset=finalOffset
         self.realCharacters=realCharacters
@@ -36,21 +38,20 @@ class libroView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class textView(APIView):
-   
-    def get(self,request,file,ini_offset,characters):
+class TextView(APIView):
+
+    def get(self, request,file,ini_offset,characters):   
         '''
         Devuelve el numero de caracteras a partir del offset del libro solicitado
         '''
         name_local=read_file(file)
-        print("---------------------------->Leido")
         f=open(name_local, 'r')
         f.seek(ini_offset,0)
         text=f.read(characters)
         textField= textFieldView(text=text,finalOffset=ini_offset+characters,realCharacters=characters)
         serializer = TextSerializer(textField)
         return Response(serializer.data)
-
+    
 
 #LISTA LIBRO
 class libroListView(APIView):
@@ -59,4 +60,3 @@ class libroListView(APIView):
         queryset = libro.objects.all()
         serializer = LibroSerializer(queryset, many = True)
         return Response(serializer.data)
-

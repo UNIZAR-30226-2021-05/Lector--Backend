@@ -23,20 +23,21 @@ def read_file (file):
     split_file = file.split(".",1)
     txt_file = split_file[0]+"local.txt"
     if os.path.isfile(local_file_location+txt_file):
-        print("---------------------------->File exist")
+        #print("---------------------------->File exist")
+        return  local_file_location+txt_file
     else:
-        print("---------------------------->File not exist")
+        #print("---------------------------->File not exist")
         dropbox_file=open(local_file_location+file,"x")
-        print("---------------------------->dropbox_file")
+        #print("---------------------------->dropbox_file")
         local_file = open (local_file_location+txt_file,'wb')
-        print("---------------------------->local_file")
+        #print("---------------------------->local_file")
         dbx.files_download_to_file(local_file_location+file,dropbox_file_location+file)
         text=textract.process(local_file_location+file, method='pdfminer') 
         local_file.write(text)
         local_file.close()
         dropbox_file.close()
         os.remove(local_file_location+file)
-    return  local_file_location+txt_file
+        return  local_file_location+txt_file
 
 def upload_image (image):
     with open(image,"rb") as img:
