@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Libro
+from .models import *
 
 
 class LibroSerializer(serializers.ModelSerializer):
@@ -17,4 +17,28 @@ class LibroSerializer(serializers.ModelSerializer):
             "formato",
             "titulo",
             "sinopsis",
+            "autor",
+        ]
+
+class AutorSerializer(serializers.ModelSerializer):
+    """
+    API endpoint
+    """
+
+    class Meta:
+        model = Autor
+        fields = [
+            "nombre",
+        ]
+
+class GeneroSerializer(serializers.ModelSerializer):
+    """
+    API endpoint
+    """
+
+    class Meta:
+        model = Genero
+        fields = [
+            "genero",
+            "Libro",
         ]

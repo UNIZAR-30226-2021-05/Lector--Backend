@@ -1,13 +1,15 @@
 from django.shortcuts import render
-from .serializers import LibroSerializer
-from .models import Libro
+from .serializers import *
+from .models import *
 
 from rest_framework.views import APIView
-from rest_framework.response import Response 
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
 class libroView(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk):
         '''
@@ -18,7 +20,7 @@ class libroView(APIView):
         serializer = LibroSerializer(libro)
         return Response(serializer.data)
 
-    def put(self, request, pk):
+    def post(self, request, pk):
         '''
         Modifica un libro
         '''
@@ -33,6 +35,24 @@ class libroView(APIView):
 class libroListView(APIView):
 
     def get(self, request):
-        queryset = libro.objects.all()
+        queryset = Libro.objects.all()
         serializer = LibroSerializer(queryset, many = True)
+        return Response(serializer.data)
+
+class autorView(APIView):
+    def get(self, request, pk):
+        '''
+        Devuelve el autor
+        '''
+        autor = Autor.objects.get(nombre=pk)
+        serializer = AutorSerializer(autor)
+        return Response(serializer.data)
+
+class generoView(APIView):
+    def get(self, request, pk):
+        '''
+        Devuelve el genero
+        '''
+        gene = Genero.objects.get(genero=pk)
+        serializer = GeneroSerializer(gene)
         return Response(serializer.data)

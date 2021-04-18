@@ -15,9 +15,9 @@ class Libro(models.Model):
 
     # Campos
     ISBN = models.CharField(max_length=13, primary_key=True)
-    pathLibro = models.FileField(upload_to='libros/')
+    pathLibro = models.CharField(max_length=200)
     titulo = models.CharField(max_length=30)
-    portada = models.FileField(upload_to='portadas/', blank=True)
+    portada = models.CharField(max_length=200 , blank=True)
     sinopsis = models.CharField(max_length=1000, blank=True)
     formato = models.CharField(max_length=5)
     
