@@ -3,6 +3,7 @@ from rest_framework import routers
 from . import views
 
 urlpatterns = [
-   path('<str:pk>', views.bookmarkView.as_view()),
-
+   path('<str:usrk>/<str:libk>', views.bookmarkView.as_view()),
+   path('<str:idk>', views.bookmarkView.as_view()),
+   #path('todos/', views.bookmarkListView.as_view()),
 ]
