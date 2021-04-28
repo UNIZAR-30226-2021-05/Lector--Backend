@@ -20,15 +20,14 @@ class bookmarkView(APIView):
         #bookmark = get_object_or_404(bookmark, Usuario = usrk, Libro = libk)
         serializer = BookmarkSerializer(bookmarkSet, many = True)
         return Response(serializer.data)
-
+        
+    '''
     def get(self, request, idk):
-        '''
-        Devuelve el bookmark solicitado
-        '''
         bookmark = Bookmark.objects.get(id = idk)
         #bookmark = get_object_or_404(bookmark, Usuario = usrk, Libro = libk)
         serializer = BookmarkSerializer(bookmark)
         return Response(serializer.data)
+    '''
 
     def post(self, request, idk):
         '''
