@@ -1,10 +1,16 @@
 from django.shortcuts import render
+<<<<<<< HEAD
 from .serializers import*
 from .models import Libro
 from utils.dropbox.operations import* 
+=======
+from .serializers import *
+from .models import *
+>>>>>>> main
 
 from rest_framework.views import APIView
-from rest_framework.response import Response 
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from rest_framework import generics
 
@@ -17,6 +23,7 @@ class textFieldView():
         self.realCharacters=realCharacters
 
 class libroView(APIView):
+    permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk):
         '''
@@ -27,7 +34,7 @@ class libroView(APIView):
         serializer = LibroSerializer(libro)
         return Response(serializer.data)
 
-    def put(self, request, pk):
+    def post(self, request, pk):
         '''
         Modifica un libro
         '''
@@ -63,6 +70,24 @@ class TextView(APIView):
 class libroListView(APIView):
 
     def get(self, request):
-        queryset = libro.objects.all()
+        queryset = Libro.objects.all()
         serializer = LibroSerializer(queryset, many = True)
+        return Response(serializer.data)
+
+class autorView(APIView):
+    def get(self, request, pk):
+        '''
+        Devuelve el autor
+        '''
+        autor = Autor.objects.get(nombre=pk)
+        serializer = AutorSerializer(autor)
+        return Response(serializer.data)
+
+class generoView(APIView):
+    def get(self, request, pk):
+        '''
+        Devuelve el genero
+        '''
+        gene = Genero.objects.get(genero=pk)
+        serializer = GeneroSerializer(gene)
         return Response(serializer.data)

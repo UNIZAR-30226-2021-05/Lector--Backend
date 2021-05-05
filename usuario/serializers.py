@@ -14,6 +14,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "pathFoto",
+            "id",
         ]
 
 class PreferenciasSerializer(serializers.ModelSerializer):
