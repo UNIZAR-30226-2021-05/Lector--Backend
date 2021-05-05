@@ -17,8 +17,9 @@ class LibroSerializer(serializers.ModelSerializer):
             "formato",
             "titulo",
             "sinopsis",
-<<<<<<< HEAD
+            "autor",
         ]
+
     
 class TextSerializer(serializers.Serializer):
     """
@@ -27,10 +28,7 @@ class TextSerializer(serializers.Serializer):
     text=serializers.CharField()
     finalOffset=serializers.IntegerField()
     realCharacters=serializers.IntegerField()
-=======
-            "autor",
-        ]
-
+        
 class AutorSerializer(serializers.ModelSerializer):
     """
     API endpoint
@@ -53,4 +51,3 @@ class GeneroSerializer(serializers.ModelSerializer):
             "genero",
             "Libro",
         ]
->>>>>>> main

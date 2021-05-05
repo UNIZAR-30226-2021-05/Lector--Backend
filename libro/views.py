@@ -1,12 +1,8 @@
 from django.shortcuts import render
-<<<<<<< HEAD
 from .serializers import*
-from .models import Libro
 from utils.dropbox.operations import* 
-=======
 from .serializers import *
 from .models import *
->>>>>>> main
 
 from rest_framework.views import APIView
 from rest_framework.response import Response

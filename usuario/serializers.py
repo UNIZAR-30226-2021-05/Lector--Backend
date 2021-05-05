@@ -30,3 +30,9 @@ class PreferenciasSerializer(serializers.ModelSerializer):
             "colorBg",
             "colorLetra",
         ]
+
+class ImageSerializer(serializers.Serializer):
+    """
+    API endpoint
+    """
+    url=serializers.CharField()

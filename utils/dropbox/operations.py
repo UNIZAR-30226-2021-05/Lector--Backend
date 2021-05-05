@@ -26,7 +26,7 @@ def read_file (file):
         #print("---------------------------->File exist")
         return  local_file_location+txt_file
     else:
-        #print("---------------------------->File not exist")
+        print("---------------------------->File not exist")
         dropbox_file=open(local_file_location+file,"x")
         #print("---------------------------->dropbox_file")
         local_file = open (local_file_location+txt_file,'wb')
@@ -45,4 +45,6 @@ def upload_image (image):
         print(dropbox_file)
         dbx.files_upload(img.read(),dropbox_image_location+dropbox_file[1] , mode=dropbox.files.WriteMode.overwrite)
 
-#def get_url (image):
+def get_url (image):
+    aux = dbx.sharing_create_shared_link(dropbox_image_location+image)
+    return  (aux.url).replace('www.dropbox.com','dl.dropboxusercontent.com')
