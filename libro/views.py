@@ -48,7 +48,13 @@ class TextView(APIView):
         f=open(name_local, 'r')
         f.seek(ini_offset,0)
         text=f.read(characters)
-        textField= textFieldView(text=text,finalOffset=ini_offset+characters,realCharacters=characters)
+        if (len(text)==characters):
+            send_text=text.rsplit(" ",1)
+            send_characters=characters-len(send_text[1])
+            textField= textFieldView(text=send_text[0],finalOffset=ini_offset+send_characters,realCharacters=send_characters)
+        else:
+            textField= textFieldView(text=text,finalOffset=ini_offset+characters,realCharacters=characters)
+        
         serializer = TextSerializer(textField)
         return Response(serializer.data)
     
