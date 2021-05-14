@@ -32,7 +32,7 @@ def read_file (file):
         local_file = open (local_file_location+txt_file,'wb')
         #print("---------------------------->local_file")
         dbx.files_download_to_file(local_file_location+file,dropbox_file_location+file)
-        text=textract.process(local_file_location+file, method='pdfminer') 
+        text=textract.process(local_file_location+file) 
         local_file.write(text)
         local_file.close()
         dropbox_file.close()
