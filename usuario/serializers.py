@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Usuario, Preferencias
+from .models import Usuario, Preferencias, Guardar
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -29,4 +29,13 @@ class PreferenciasSerializer(serializers.ModelSerializer):
             "tipoLetra",
             "colorBg",
             "colorLetra",
+        ]
+
+class GuardarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Guardar
+        fields = [
+            "libro",
+            "leyendo",
+            "currentOffset",
         ]

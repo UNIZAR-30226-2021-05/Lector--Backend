@@ -15,12 +15,12 @@ elif [ $USER != "postgres" ];then
     echo "ERROR: logeate como postgres: sudo su - postgres"
 else
     psql << EOF
-CREATE DATABASE lector;
+CREATE DATABASE lectoruser;
 CREATE USER lectoruser WITH PASSWORD 'lectoruser';
 ALTER ROLE lectoruser SET client_encoding TO 'utf8';
 ALTER ROLE lectoruser SET default_transaction_isolation TO 'read committed';
 ALTER ROLE lectoruser SET timezone TO 'UTC';
-GRANT ALL PRIVILEGES ON DATABASE lector TO lectoruser;
+GRANT ALL PRIVILEGES ON DATABASE lectoruser TO lectoruser;
 EOF
 
 fi
