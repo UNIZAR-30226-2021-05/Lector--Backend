@@ -39,3 +39,9 @@ class GuardarSerializer(serializers.ModelSerializer):
             "leyendo",
             "currentOffset",
         ]
+        
+class ImageSerializer(serializers.Serializer):
+    """
+    API endpoint
+    """
+    url=serializers.CharField()

@@ -1,13 +1,14 @@
 import re
 from libro.models import Libro
 import usuario
-from .serializers import UsuarioSerializer, PreferenciasSerializer, GuardarSerializer
+from .serializers import UsuarioSerializer, PreferenciasSerializer, GuardarSerializer, ImageSerializer
 from .models import Usuario, Preferencias, Guardar
 
 from rest_framework.views import APIView
 from rest_framework.response import Response 
 from rest_framework.permissions import IsAuthenticated
 
+from utils.dropbox.operations import* 
 
 
 #GET /usuario/<id> -> SELECT  nombre, apellidos, correo
@@ -15,7 +16,10 @@ from rest_framework.permissions import IsAuthenticated
 
 #GET /configuracion/<id_usuario> -> SELECT * from configuracion
 #PUT /configuracion/<id_usuario> -> UPDATE configuracion
+class imageFieldView():
 
+    def __init__ (self, url):
+        self.url=url
 
 class usuarioView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -102,7 +106,19 @@ class guardarView(APIView):
         serializer = GuardarSerializer(guard, many=True)
         return Response(serializer.data)
 
-    
+class imageView (APIView):
+    def get (self,request,pk):
+        '''
+        Devuelve la url correspondiente a  la imagen de icono del usr
+        '''
+        aux=get_url(pk)
+        print(aux)
+        imageField= imageFieldView(url=aux)
+        serializer = ImageSerializer(imageField)
+        return Response(serializer.data)
+
+
+
 
 '''
 #LISTA USUARIO

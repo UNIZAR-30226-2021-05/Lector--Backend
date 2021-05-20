@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-## Software requerido 
-=======
 ## Software requerido  
->>>>>>> d25072045045442d9d9efaa213ad740ecbabb723
 pip3  
 python3    
 Django-3.1.7    
