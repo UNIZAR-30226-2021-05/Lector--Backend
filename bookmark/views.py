@@ -48,7 +48,7 @@ class crearBookmarkView(APIView):
     def post(self, request, usrk, libk):
         user = Usuario.objects.get(username=usrk)
         lib = Libro.objects.get(ISBN=libk)
-        bookm = Bookmark(Usuario=user, Libro=lib, esAnotacion=True, cuerpo=request.data["cuerpo"], offset=request.data["offset"])
+        bookm = Bookmark(Usuario=user, Libro=lib, esAnotacion=True, titulo=request.data["titulo"], cuerpo=request.data["cuerpo"], offset=request.data["offset"])
         bookm.save()
         serializer = BookmarkSerializer(bookm)
         return Response(serializer.data)
