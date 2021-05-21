@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Bookmark
+from .models import Bookmark, Usuario
 
 
 class BookmarkSerializer(serializers.ModelSerializer):
@@ -17,4 +17,16 @@ class BookmarkSerializer(serializers.ModelSerializer):
             "titulo",
             "Libro",
             "Usuario",
+            "id",
+        ]
+
+class UsuarioIDSerializer(serializers.ModelSerializer):
+    """
+    API endpoint
+    """
+
+    class Meta:
+        model = Usuario
+        fields = [
+            "id",
         ]

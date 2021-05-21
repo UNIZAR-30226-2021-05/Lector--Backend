@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Usuario, Preferencias
+from .models import Usuario, Preferencias, Guardar
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -14,6 +14,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             "username",
             "email",
             "pathFoto",
+            "id",
         ]
 
 class PreferenciasSerializer(serializers.ModelSerializer):
@@ -29,3 +30,18 @@ class PreferenciasSerializer(serializers.ModelSerializer):
             "colorBg",
             "colorLetra",
         ]
+
+class GuardarSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Guardar
+        fields = [
+            "libro",
+            "leyendo",
+            "currentOffset",
+        ]
+        
+class ImageSerializer(serializers.Serializer):
+    """
+    API endpoint
+    """
+    url=serializers.CharField()

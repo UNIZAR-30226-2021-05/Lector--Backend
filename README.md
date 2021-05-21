@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-## Software requerido 
-=======
 ## Software requerido  
->>>>>>> d25072045045442d9d9efaa213ad740ecbabb723
 pip3  
 python3    
 Django-3.1.7    
@@ -35,9 +31,9 @@ comandos:
 #Autenticación desde consola
 heroku login
 #Creación de aplicación en heroku
-heroku create lector
+heroku create lectoruser
 #Ligar repositorio a nuestra app en heroku
-heroku git:remote -a lector
+heroku git:remote -a lectoruser
 #Ejecutar script de despliegue
 bash despliegue.sh
 ```  
@@ -49,7 +45,7 @@ python3 manage.py migrate
 python3 manage.py superuser  
 #update postgres en heroku 
 heroku pg:reset
-heroku pg:push lector DATABASE_URL --app rocky-waters-55301
+heroku pg:push lectoruser DATABASE_URL --app lectorbrainbook
 ```
 ### Otros aspectos  
 Actualizar postgres -> python3 manage.py migrate  
