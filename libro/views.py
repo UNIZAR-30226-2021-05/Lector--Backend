@@ -41,13 +41,26 @@ class libroView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class DownloadView(APIView):
+
+    def get(self,request,file):
+        '''
+        Descarga en back el libro solicitado
+        '''
+        aux = download_file(file)
+        if (aux):
+            return Response("Se ha descargado", status=200)
+        else:
+            return Response("Error en descarga", status=500)
+
 class TextView(APIView):
 
     def get(self, request,file,ini_offset,characters):   
         '''
         Devuelve el numero de caracteras a partir del offset del libro solicitado
         '''
-        name_local=read_file(file)
+        name_local=translate_file(file)
         f=open(name_local, 'r')
         f.seek(ini_offset,0)
         text=f.read(characters)
