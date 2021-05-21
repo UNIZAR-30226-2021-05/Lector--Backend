@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from .models import Usuario, Preferencias, Guardar
+from .models import Usuario, Preferencias, Guardar, Libro
+import sys
+import os.path
+
+sys.path.append(os.path.dirname(os.path.realpath(__file__)))
+from libro.models import Libro
+from libro.serializers import LibroSerializer
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -45,3 +51,13 @@ class ImageSerializer(serializers.Serializer):
     API endpoint
     """
     url=serializers.CharField()
+
+
+class ColeccionSerializer(serializers.Serializer):
+    """
+    API endpoint
+    """
+    tituloColeccion = serializers.CharField()
+    libros = LibroSerializer(many=True)  # A nested list of 'edit' items.
+
+
