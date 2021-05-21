@@ -2,6 +2,7 @@ import dropbox
 import textract
 import os.path
 import sys
+import tika
 from tika import parser
 
 sys.path.append(os.path.dirname(os.path.realpath(__file__)))
@@ -27,6 +28,7 @@ def translate_file (file):
         #print("---------------------------->File exist")
         return  local_file_location+txt_file
     else:
+        tika.initVM()
         print("---------------------------->File not exist")
         local_file = open (local_file_location+txt_file,'w')
         print("---------------------------->local_file")
