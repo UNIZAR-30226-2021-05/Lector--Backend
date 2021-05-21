@@ -3,6 +3,8 @@ from libro.models import Libro
 import usuario
 from .serializers import UsuarioSerializer, PreferenciasSerializer, GuardarSerializer, ImageSerializer
 from .models import Usuario, Preferencias, Guardar
+from utils.dropbox.operations import* 
+
 
 from rest_framework.views import APIView
 from rest_framework.response import Response 
@@ -21,8 +23,16 @@ class imageFieldView():
     def __init__ (self, url):
         self.url=url
 
+class userFieldView():
+
+    def __init__ (self, id, username, email, pathFoto):
+        self.id=id
+        self.username=username
+        self.email=email
+        self.pathFoto=pathFoto
+
 class usuarioView(APIView):
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk):
         '''
@@ -38,9 +48,16 @@ class usuarioView(APIView):
         '''
         usuario = Usuario.objects.get(username=pk)
         serializer = UsuarioSerializer(usuario, data=request.data)
+        s = get_url(request.data["pathFoto"])
+        print("AQUI--------------------------------------" + s)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            #print("AQUI--------------------------------------" + serializer.data["pathFoto"])
+            serializer.data["pathFoto"] = s
+            userField =userFieldView(id=serializer.data["id"],username=serializer.data["username"],email=serializer.data["email"],pathFoto=s)
+            serializer2 = UsuarioSerializer(userField)
+            #if serializer2.is_valid(): //TODO: HACER LA INFORMACIÓN DEL USUARIO CONSISTENTE EN LA BASE DE DATOS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                #serializer2.save()
+            return Response(serializer2.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -117,6 +134,11 @@ class imageView (APIView):
         serializer = ImageSerializer(imageField)
         return Response(serializer.data)
 
+
+
+# get /usuario/coleccion/<username:str> titulo = "accion"
+# put /usuario/coleccion/rename/<username:str>/ oldTitulo = "accion" newTitulo = "drama" 
+# put /usuario/coleccion/add/<username:str>/ libro = libro
 
 
 

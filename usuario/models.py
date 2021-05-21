@@ -52,6 +52,8 @@ class Guardar(models.Model):
     leyendo = models.BooleanField(default=False)
 
 
+
+
 class Preferencias(models.Model):
     """
     Modelo de configuracion, con tamanoLetra, tipoLetra, colorBg y colorLetra
@@ -76,3 +78,17 @@ class Preferencias(models.Model):
         Cadena para representar el objeto Usuario
         """
         return str(self.usuario.username)
+
+class Coleccion(models.Model):
+    usuario = models.ForeignKey(Usuario,on_delete=models.CASCADE)
+    titulo = models.CharField(max_length=50, default='tituloColeccion')
+
+    class Meta:
+        unique_together = ('usuario', 'titulo')
+
+class agrupar(models.Model):
+        coleccion = models.ForeignKey(Coleccion, on_delete=models.CASCADE)
+        libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
+
+        class Meta:
+            unique_together = ('coleccion', 'libro')
