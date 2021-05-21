@@ -1,6 +1,6 @@
 import dropbox
-import textract
 import os.path
+from epub2txt import epub2txt
 import sys
 import tika
 from tika import parser
@@ -31,8 +31,15 @@ def translate_file (file):
         print("---------------------------->File not exist")
         local_file = open (local_file_location+txt_file,'w')
         print("---------------------------->local_file")
-        raw=parser.from_file(local_file_location+file)
-        local_file.write(raw['content'])
+        print(split_file[1])
+        if (split_file[1]=='pdf'):
+            raw=parser.from_file(local_file_location+file)
+            local_file.write(raw['content'])
+        elif (split_file[1]=='epub'):
+             local_file.write(epub2txt(local_file_location+file))
+        else:
+            dropbox_file=open(local_file_location+file)
+            local_file.write(dropbox_file.read())
         local_file.close()
         os.remove(local_file_location+file)
         return  local_file_location+txt_file
