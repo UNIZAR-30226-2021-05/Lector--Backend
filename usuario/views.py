@@ -1,4 +1,6 @@
 import re
+
+from rest_framework import serializers
 from libro.models import Libro
 import usuario
 from .serializers import UsuarioSerializer, PreferenciasSerializer, GuardarSerializer, ImageSerializer
@@ -48,15 +50,16 @@ class usuarioView(APIView):
         '''
         usuario = Usuario.objects.get(username=pk)
         serializer = UsuarioSerializer(usuario, data=request.data)
-        s = get_url(request.data["pathFoto"])
-        print("AQUI--------------------------------------" + s)
+        s = ""
+        if request.data["pathFoto"]:
+            s = get_url(request.data["pathFoto"])
+        
         if serializer.is_valid():
-            #print("AQUI--------------------------------------" + serializer.data["pathFoto"])
-            serializer.data["pathFoto"] = s
-            userField =userFieldView(id=serializer.data["id"],username=serializer.data["username"],email=serializer.data["email"],pathFoto=s)
+            userField =userFieldView(id=serializer.data["id"],username=request.data["username"],email=request.data["email"],pathFoto=s)
             serializer2 = UsuarioSerializer(userField)
-            #if serializer2.is_valid(): //TODO: HACER LA INFORMACIÓN DEL USUARIO CONSISTENTE EN LA BASE DE DATOS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                #serializer2.save()
+            usuario.pathFoto = s
+            usuario.email = request.data["email"]
+            usuario.save()
             return Response(serializer2.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
