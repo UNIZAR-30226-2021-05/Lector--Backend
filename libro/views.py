@@ -35,11 +35,20 @@ class libroView(APIView):
         Modifica un libro
         '''
         libro = Libro.objects.get(ISBN=pk)
-        serializer = LibroSerializer(libro, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        port = libro.portada
+        sino = libro.sinopsis
+        auto = libro.autor
+        if 'portada' in request.data and request.data["portada"]:
+            port = get_url(request.data["portada"])
+        if 'sinopsis' in request.data and request.data["sinopsis"]:
+            sino = request.data["sinopsis"]
+        if 'autor' in request.data and request.data["autor"]:
+            auto = request.data["autor"]
+        lib = Libro(ISBN=request.data["ISBN"], pathLibro=request.data["pathLibro"], titulo=request.data["titulo"], portada=port, 
+            sinopsis=sino, formato=request.data["formato"], autor=auto)
+        lib.save()
+        serializer = LibroSerializer(lib)
+        return Response(serializer.data)
 
 
 class DownloadView(APIView):
