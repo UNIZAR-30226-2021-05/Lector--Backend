@@ -159,13 +159,13 @@ class imageView (APIView):
 
 
 class coleccionView (APIView):
-    def get (self,request,username):
+    def get (self,request,username,titulo):
         '''
         Devuelve una coleccion del usuario si existe
         '''
-        if Coleccion.objects.filter(usuario__username=username, titulo = request.data["titulo"]).exists():
+        if Coleccion.objects.filter(usuario__username=username, titulo = titulo).exists():
             #Caso existe la coleccion
-            col = Coleccion.objects.filter(usuario__username=username, titulo = request.data["titulo"]).first()
+            col = Coleccion.objects.filter(usuario__username=username, titulo = titulo).first()
             agru = Agrupar.objects.filter(coleccion__id = col.id)
             libros = []
             for l in agru:
@@ -236,6 +236,14 @@ class coleccionDeleteView (APIView):
             return Response({'Correcto':'Coleccion eliminada'})
         else:
             return Response({'error': 'No existe coleccion'})
+
+class colecctionesListView(APIView):
+
+    def get(self, request, username):
+        idUsuario = Usuario.objects.get(username = username)
+        queryset = Coleccion.objects.filter(usuario = idUsuario)
+        serializer = ColeccionesListSerializer(queryset, many = True)
+        return Response(serializer.data)
 
 
 '''
