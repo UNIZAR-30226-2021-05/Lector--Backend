@@ -3,8 +3,8 @@ import re
 from rest_framework import serializers
 from libro.models import Libro
 import usuario
-from .serializers import UsuarioSerializer, PreferenciasSerializer, GuardarSerializer, ImageSerializer
-from .models import Usuario, Preferencias, Guardar
+from .serializers import *
+from .models import *
 from utils.dropbox.operations import* 
 
 
@@ -32,6 +32,12 @@ class userFieldView():
         self.username=username
         self.email=email
         self.pathFoto=pathFoto
+    
+class coleccionFieldView():
+
+    def __init__ (self, titulo, listaLibros):
+        self.titulo=titulo
+        self.listaLibros=listaLibros
 
 class usuarioView(APIView):
     #permission_classes = (IsAuthenticated,)
@@ -137,12 +143,99 @@ class imageView (APIView):
         serializer = ImageSerializer(imageField)
         return Response(serializer.data)
 
+#DEVOLVER COLECCION
+# Si titulo == null -> ERROR
+# get /usuario/coleccion/<username:str> titulo = "accion" 
+
+#AÑADIR/ACTUALIZAR COLECCION. 
+#   Si título == null -> ERROR
+#   sino si libros = [] -> si existe coleccion, actualiza titulo, si no la crea
+#   Sino si libros != [] -> Si existe coleccion, actualiza titulo y añade libros, si no la crea.
+# put /usuario/coleccion/<username:str>/ titulo = "accion" libros = {libro} 
+
+#ELIMINAR COLECCION
+#   Si título == null -> ERROR
+# put /usuario/coleccion/del/<username:str>/ titulo = "accion"                                                       
 
 
-# get /usuario/coleccion/<username:str> titulo = "accion"
-# put /usuario/coleccion/rename/<username:str>/ oldTitulo = "accion" newTitulo = "drama" 
-# put /usuario/coleccion/add/<username:str>/ libro = libro
+class coleccionView (APIView):
+    def get (self,request,username):
+        '''
+        Devuelve una coleccion del usuario si existe
+        '''
+        if Coleccion.objects.filter(usuario__username=username, titulo = request.data["titulo"]).exists():
+            #Caso existe la coleccion
+            col = Coleccion.objects.filter(usuario__username=username, titulo = request.data["titulo"]).first()
+            agru = Agrupar.objects.filter(coleccion__id = col.id)
+            libros = []
+            for l in agru:
+                libros += [{
+                    "ISBN":l.libro.ISBN, 
+                    "formato":l.libro.formato,
+                    "autor": l.libro.autor,
+                    "pathLibro": l.libro.pathLibro,
+                    "portada": l.libro.portada,
+                    "sinopsis": l.libro.sinopsis,
+                    "titulo": l.libro.titulo
+                    }]
+            return Response({'titulo': col.titulo, 'libros': libros})
+        else:
+            return Response({'error': 'No existe coleccion'})
 
+    def put (self, request, username):
+        '''
+        Añade una coleccion al usuario si no existe
+        '''
+        idUsuario = Usuario.objects.get(username = username)
+        if Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"]).exists():
+            #Caso existe la coleccion
+            #if request.data["titulo"] != "" and request.data["libros"] == "":
+            #    col = Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"])
+            #    col.titulo = titulo 
+            #    col.save()
+            #    return Response({'Correcto':'Coleccion renombrada'})
+            return Response({'error': 'Ya existe coleccion'})
+        else:
+            #Caso no existe la coleccion
+            col = Coleccion(usuario = idUsuario, titulo = request.data["titulo"])
+            col.save()
+            libros = request.data["libros"].split(",")
+            for isbn in libros:
+                if not Agrupar.objects.filter(libro = isbn, coleccion = col.id).exists():
+                    #Caso la tupla libro,coleccion en agrupar no existe
+                    print("tupla no existe " + isbn)
+                    if Libro.objects.filter(ISBN=isbn).exists():
+                        #Caso el libro a aádir a la coleccion existe
+                        l = Libro.objects.filter(ISBN=isbn).first()
+                        agru = Agrupar(libro = l, coleccion = col)
+                        print("Voy a guardar")
+                        agru.save()
+            return Response({'correcto' : 'Coleccion añadida'})
+
+class coleccionRenameView (APIView):
+    def put (self,request,username):
+        idUsuario = Usuario.objects.get(username = username)
+        if Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["oldTitulo"]).exists():
+            #Caso existe la coleccion
+            if request.data["newTitulo"] != "" :
+                #Caso nuevo título no es vacio
+                col = Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["oldTitulo"]).first()
+                col.titulo = request.data["newTitulo"] 
+                col.save()
+                return Response({'Correcto':'Coleccion renombrada'})
+            return Response({'error': 'Nuevo titulo vacio'})
+        else:
+            return Response({'error': 'No existe coleccion'})
+
+class coleccionDeleteView (APIView):
+    def put (self,request,username):
+        idUsuario = Usuario.objects.get(username = username)
+        if Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"]).exists():
+            #Caso coleccion existe
+            Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"]).delete()
+            return Response({'Correcto':'Coleccion eliminada'})
+        else:
+            return Response({'error': 'No existe coleccion'})
 
 
 '''
