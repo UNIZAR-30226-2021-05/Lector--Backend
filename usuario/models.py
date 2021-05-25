@@ -86,7 +86,7 @@ class Coleccion(models.Model):
     class Meta:
         unique_together = ('usuario', 'titulo')
 
-class agrupar(models.Model):
+class Agrupar(models.Model):
         coleccion = models.ForeignKey(Coleccion, on_delete=models.CASCADE)
         libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
 
