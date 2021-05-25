@@ -57,7 +57,7 @@ class ColeccionSerializer(serializers.Serializer):
     """
     API endpoint
     """
-    tituloColeccion = serializers.CharField()
-    libros = LibroSerializer(many=True)  # A nested list of 'edit' items.
+    titulo = serializers.CharField()
+    listaLibros = LibroSerializer(many=True)  # A nested list of 'edit' items.
 
 
