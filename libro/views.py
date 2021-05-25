@@ -57,10 +57,7 @@ class DownloadView(APIView):
         '''
         Descarga en back el libro solicitado
         '''
-        libro = Libro.objects.get(ISBN=file)
-        serializer = LibroSerializer(libro)
-        s = serializer.data["titulo"] + "." + serializer.data["formato"]
-        aux = download_file(s)
+        aux = download_file(file)
         if (aux):
             return Response("Se ha descargado", status=200)
         else:
@@ -71,11 +68,8 @@ class TextView(APIView):
     def get(self, request,file,ini_offset,characters):   
         '''
         Devuelve el numero de caracteras a partir del offset del libro solicitado
-        '''
-        libro = Libro.objects.get(ISBN=file)
-        serializer = LibroSerializer(libro)
-        s = serializer.data["titulo"] + "." + serializer.data["formato"]
-        name_local=translate_file(s)
+        ''' 
+        name_local=translate_file(file)
         f=open(name_local, 'r')
         f.seek(ini_offset,0)
         text=f.read(characters)
