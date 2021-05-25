@@ -163,6 +163,8 @@ class coleccionView (APIView):
         '''
         Devuelve una coleccion del usuario si existe
         '''
+        print('----------------------------------------------->'request.data.tostring())
+
         if Coleccion.objects.filter(usuario__username=username, titulo = request.data["titulo"]).exists():
             #Caso existe la coleccion
             col = Coleccion.objects.filter(usuario__username=username, titulo = request.data["titulo"]).first()
@@ -187,7 +189,6 @@ class coleccionView (APIView):
         Añade una coleccion al usuario si no existe
         '''
         idUsuario = Usuario.objects.get(username = username)
-        print(request.data.tostring())
         if Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"]).exists():
             #Caso existe la coleccion
             #if request.data["titulo"] != "" and request.data["libros"] == "":
