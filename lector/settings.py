@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'django_dropbox',
     'corsheaders',
 
+    'posts.apps.PostsConfig',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

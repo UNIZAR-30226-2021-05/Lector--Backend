@@ -25,6 +25,7 @@ urlpatterns = [
     path('usuario/',include('usuario.urls')),
     path('libro/', include('libro.urls')),
     path('bookmark/', include('bookmark.urls')),
+    path('twitter/', include('posts.urls')),
     #Autenticación con Allauth
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
