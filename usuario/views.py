@@ -182,12 +182,12 @@ class coleccionView (APIView):
         else:
             return Response({'error': 'No existe coleccion'})
 
-    def put (self, request, username):
+    def put (self, request, username, titulo):
         '''
         Añade una coleccion al usuario si no existe
         '''
         idUsuario = Usuario.objects.get(username = username)
-        if Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"]).exists():
+        if Coleccion.objects.filter(usuario = idUsuario, titulo = titulo).exists():
             #Caso existe la coleccion
             #if request.data["titulo"] != "" and request.data["libros"] == "":
             #    col = Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"])
@@ -197,7 +197,7 @@ class coleccionView (APIView):
             return Response({'error': 'Ya existe coleccion'})
         else:
             #Caso no existe la coleccion
-            col = Coleccion(usuario = idUsuario, titulo = request.data["titulo"])
+            col = Coleccion(usuario = idUsuario, titulo = titulo)
             col.save()
             libros = request.data["libros"].split(",")
             for isbn in libros:
