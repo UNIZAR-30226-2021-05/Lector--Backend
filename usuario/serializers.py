@@ -38,10 +38,15 @@ class PreferenciasSerializer(serializers.ModelSerializer):
         ]
 
 class GuardarSerializer(serializers.ModelSerializer):
+    ISBN = serializers.SerializerMethodField('lee_libro')
+
+    def lee_libro(self, Guardar):
+        return Guardar.libro.ISBN
+        
     class Meta:
         model = Guardar
         fields = [
-            "libro",
+            "ISBN",
             "leyendo",
             "currentOffset",
         ]
