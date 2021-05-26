@@ -20,7 +20,7 @@ class rateView(APIView):
         libro = Libro.objects.get(ISBN=libk)
         if (punt >= 0 and punt <=5):
             #Post.objects.create(title='My First Post', content='El libro '+libro.data['titulo'] +' ha sido valorado con un '+punt)
-            Post.objects.create(title='El libro '+libro.titulo +' ha sido valorado con un '+str(punt))
+            Post.objects.create(title='El libro '+libro.titulo +' ha sido valorado con un '+str(punt)+'. #BrainBookApp')
             #print('El libro '+libro.titulo +' ha sido valorado con un '+str(punt))
             return Response("Libro valorado", status=200)
         else:
