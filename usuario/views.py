@@ -118,6 +118,19 @@ class guardarLibroView(APIView):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class borrarLibroView(APIView):
+
+    def post(self, request, usrk, libk):
+        user = Usuario.objects.get(username=usrk)
+        serializerU = UsuarioSerializer(user)
+        usrk = serializerU.data['id']
+
+        if Guardar.objects.filter(usuario = usrk, libro = libk).exists():
+            #Caso coleccion existe
+            Guardar.objects.filter(usuario = usrk, libro = libk).delete()
+            return Response({'Correcto':'Libro eliminado de la lista'})
+        else:
+            return Response({'error': 'El usuario no tiene guardado el libro'})
         
 class guardarView(APIView):
 
