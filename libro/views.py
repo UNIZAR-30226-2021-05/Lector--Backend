@@ -44,7 +44,7 @@ class libroView(APIView):
             if 'sinopsis' in request.data and request.data["sinopsis"]:
                 sino = request.data["sinopsis"]
             if 'autor' in request.data and request.data["autor"]:
-                auto = request.data["autor"]
+                auto = Autor.objects.get(nombre=request.data["autor"])
             lib = Libro(ISBN=request.data["ISBN"], pathLibro=request.data["pathLibro"], titulo=request.data["titulo"], portada=port, 
                 sinopsis=sino, formato=request.data["formato"], autor=auto)
             lib.save()
