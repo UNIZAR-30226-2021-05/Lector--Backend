@@ -34,20 +34,35 @@ class libroView(APIView):
         '''
         Modifica un libro
         '''
-        libro = Libro.objects.get(ISBN=pk)
-        port = libro.portada
-        sino = libro.sinopsis
-        auto = libro.autor
-        if 'portada' in request.data and request.data["portada"]:
-            port = get_url(request.data["portada"])
-        if 'sinopsis' in request.data and request.data["sinopsis"]:
-            sino = request.data["sinopsis"]
-        if 'autor' in request.data and request.data["autor"]:
-            auto = request.data["autor"]
-        lib = Libro(ISBN=request.data["ISBN"], pathLibro=request.data["pathLibro"], titulo=request.data["titulo"], portada=port, 
-            sinopsis=sino, formato=request.data["formato"], autor=auto)
-        lib.save()
-        serializer = LibroSerializer(lib)
+        try:
+            libro = Libro.objects.get(ISBN=pk)
+            port = libro.portada
+            sino = libro.sinopsis
+            auto = libro.autor
+            if 'portada' in request.data and request.data["portada"]:
+                port = get_url(request.data["portada"])
+            if 'sinopsis' in request.data and request.data["sinopsis"]:
+                sino = request.data["sinopsis"]
+            if 'autor' in request.data and request.data["autor"]:
+                auto = request.data["autor"]
+            lib = Libro(ISBN=request.data["ISBN"], pathLibro=request.data["pathLibro"], titulo=request.data["titulo"], portada=port, 
+                sinopsis=sino, formato=request.data["formato"], autor=auto)
+            lib.save()
+            serializer = LibroSerializer(lib)
+        except:
+            port = ''
+            sino = ''
+            auto = ''
+            if 'portada' in request.data and request.data["portada"]:
+                port = get_url(request.data["portada"])
+            if 'sinopsis' in request.data and request.data["sinopsis"]:
+                sino = request.data["sinopsis"]
+            if 'autor' in request.data and request.data["autor"]:
+                auto = Autor.objects.get(nombre=request.data["autor"])
+            lib = Libro(ISBN=request.data["ISBN"], pathLibro=request.data["pathLibro"], titulo=request.data["titulo"], portada=port, 
+                sinopsis=sino, formato=request.data["formato"], autor=auto)
+            lib.save()
+            serializer = LibroSerializer(lib)
         return Response(serializer.data)
 
 
