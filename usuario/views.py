@@ -172,7 +172,7 @@ class coleccionView (APIView):
                 libros += [{
                     "ISBN":l.libro.ISBN, 
                     "formato":l.libro.formato,
-                    "autor": l.libro.autor,
+                    "autor": l.libro.autor.nombre,
                     "pathLibro": l.libro.pathLibro,
                     "portada": l.libro.portada,
                     "sinopsis": l.libro.sinopsis,
@@ -215,11 +215,12 @@ class coleccionView (APIView):
 class coleccionRenameView (APIView):
     def put (self,request,username):
         idUsuario = Usuario.objects.get(username = username)
-        if Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["oldTitulo"]).exists():
+        idU = idUsuario.id
+        if Coleccion.objects.filter(usuario = idU, titulo = request.data["oldTitulo"]).exists():
             #Caso existe la coleccion
             if request.data["newTitulo"] != "" :
                 #Caso nuevo título no es vacio
-                col = Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["oldTitulo"]).first()
+                col = Coleccion.objects.filter(usuario = idU, titulo = request.data["oldTitulo"]).first()
                 col.titulo = request.data["newTitulo"] 
                 col.save()
                 return Response({'Correcto':'Coleccion renombrada'})
