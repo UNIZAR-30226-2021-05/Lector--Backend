@@ -95,6 +95,20 @@ class preferenciasView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class guardarLeerLibroView(APIView):
+
+    def get(self, request, usrk, libk):
+            user = Usuario.objects.get(username=usrk)
+            serializerU = UsuarioSerializer(user)
+            usrk = serializerU.data['id']
+            try:
+                guard = Guardar.objects.get(usuario=usrk, libro=libk)
+                serializer = GuardarSerializer(guard)
+                return  Response(serializer.data)
+            except:
+                return Response({'error': 'El usuario no tiene el libro'})
+
+
 class guardarLibroView(APIView):
 
     def get(self, request, usrk, libk):
@@ -103,6 +117,7 @@ class guardarLibroView(APIView):
         usrk = serializerU.data['id']
         try:
             guard = Guardar.objects.get(usuario=usrk, libro=libk)
+            
             return Response({'correcto': 'El usuario tiene el libro'})
         except:
             return Response({'error': 'El usuario no tiene el libro'})

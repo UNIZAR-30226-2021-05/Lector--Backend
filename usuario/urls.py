@@ -8,6 +8,7 @@ urlpatterns = [
    path('preferencias/<str:pk>', views.preferenciasView.as_view()),
    path('guardar/<str:usrk>', views.guardarView.as_view()),
    path('guardar/<str:usrk>/<str:libk>', views.guardarLibroView.as_view()),
+   path('guardar/obtener/<str:usrk>/<str:libk>', views.guardarLeerLibroView.as_view()),
    path('guardar/delete/<str:usrk>/<str:libk>', views.borrarLibroView.as_view()),
    path('image/<str:pk>', views.imageView.as_view()),
    path('coleccion/rename/<str:username>', views.coleccionRenameView.as_view()),
