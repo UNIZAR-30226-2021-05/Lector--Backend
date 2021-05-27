@@ -56,8 +56,9 @@ class usuarioView(APIView):
         '''
         usuario = Usuario.objects.get(username=pk)
         serializer = UsuarioSerializer(usuario, data=request.data)
-        s = ""
-        if request.data["pathFoto"]:
+        s = usuario.pathFoto
+        print(s)
+        if 'pathFoto' in request.data and request.data["pathFoto"]:
             s = get_url(request.data["pathFoto"])
         
         if serializer.is_valid():
@@ -111,7 +112,7 @@ class guardarLibroView(APIView):
         except:
             #No existe el libro en guardados, lo creamos.
             libro = Libro.objects.get(ISBN=libk)
-            guard = Guardar(usuario=user, libro=libro, puntuacion=0, currentOffset=request.data["currentOffset"], leyendo=True)
+            guard = Guardar(usuario=user, libro=libro, puntuacion=0, currentOffset=request.data["currentOffset"], leyendo=False)
             guard.save()
             serializer = GuardarSerializer(guard)
             return Response(serializer.data)

@@ -19,7 +19,7 @@ class textFieldView():
         self.realCharacters=realCharacters
 
 class libroView(APIView):
-    permission_classes = (IsAuthenticated,)
+    #permission_classes = (IsAuthenticated,)
 
     def get(self, request, pk):
         '''
