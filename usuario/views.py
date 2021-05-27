@@ -57,7 +57,6 @@ class usuarioView(APIView):
         usuario = Usuario.objects.get(username=pk)
         serializer = UsuarioSerializer(usuario, data=request.data)
         s = usuario.pathFoto
-        print(s)
         if 'pathFoto' in request.data and request.data["pathFoto"]:
             s = get_url(request.data["pathFoto"])
         
@@ -98,6 +97,16 @@ class preferenciasView(APIView):
 
 class guardarLibroView(APIView):
 
+    def get(self, request, usrk, libk):
+        user = Usuario.objects.get(username=usrk)
+        serializerU = UsuarioSerializer(user)
+        usrk = serializerU.data['id']
+        try:
+            guard = Guardar.objects.get(usuario=usrk, libro=libk)
+            return Response({'correcto': 'El usuario tiene el libro'})
+        except:
+            return Response({'error': 'El usuario no tiene el libro'})
+
     def post(self, request, usrk, libk):
         user = Usuario.objects.get(username=usrk)
         serializerU = UsuarioSerializer(user)
@@ -137,7 +146,7 @@ class guardarView(APIView):
 
     def get(self, request, usrk):
         '''
-        Devuelve las preferencias del usuario
+        Devuelve los libros del usuario
         '''
         user = Usuario.objects.get(username=usrk)
         serializerU = UsuarioSerializer(user)
