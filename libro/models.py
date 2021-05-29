@@ -16,7 +16,7 @@ class Libro(models.Model):
     # Campos
     ISBN = models.CharField(max_length=13, primary_key=True)
     pathLibro = models.CharField(max_length=200)
-    titulo = models.CharField(max_length=30)
+    titulo = models.CharField(max_length=60)
     portada = models.CharField(max_length=200 , blank=True)
     sinopsis = models.CharField(max_length=1000, blank=True)
     formato = models.CharField(max_length=5)

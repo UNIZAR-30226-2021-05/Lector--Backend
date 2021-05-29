@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Usuario, Preferencias, Guardar, Libro
+from .models import *
 import sys
 import os.path
 
@@ -62,7 +62,23 @@ class ColeccionSerializer(serializers.Serializer):
     """
     API endpoint
     """
-    titulo = serializers.CharField()
-    listaLibros = LibroSerializer(many=True)  # A nested list of 'edit' items.
+    #titulo = serializers.CharField()
+    #listaLibros = LibroSerializer(many=True)  # A nested list of 'edit' items.
+    class Meta:
+        model = Agrupar
+        fields = [
+            "titulo",
+            "libro",
+        ]
 
 
+class ColeccionesListSerializer(serializers.ModelSerializer):
+    """
+    API endpoint
+    """
+
+    class Meta:
+        model = Coleccion
+        fields = [
+            "titulo",
+        ]

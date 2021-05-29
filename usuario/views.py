@@ -56,8 +56,8 @@ class usuarioView(APIView):
         '''
         usuario = Usuario.objects.get(username=pk)
         serializer = UsuarioSerializer(usuario, data=request.data)
-        s = ""
-        if request.data["pathFoto"]:
+        s = usuario.pathFoto
+        if 'pathFoto' in request.data and request.data["pathFoto"]:
             s = get_url(request.data["pathFoto"])
         
         if serializer.is_valid():
@@ -95,7 +95,32 @@ class preferenciasView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class guardarLeerLibroView(APIView):
+
+    def get(self, request, usrk, libk):
+            user = Usuario.objects.get(username=usrk)
+            serializerU = UsuarioSerializer(user)
+            usrk = serializerU.data['id']
+            try:
+                guard = Guardar.objects.get(usuario=usrk, libro=libk)
+                serializer = GuardarSerializer(guard)
+                return  Response(serializer.data)
+            except:
+                return Response({'error': 'El usuario no tiene el libro'})
+
+
 class guardarLibroView(APIView):
+
+    def get(self, request, usrk, libk):
+        user = Usuario.objects.get(username=usrk)
+        serializerU = UsuarioSerializer(user)
+        usrk = serializerU.data['id']
+        try:
+            guard = Guardar.objects.get(usuario=usrk, libro=libk)
+            
+            return Response({'correcto': 'El usuario tiene el libro'})
+        except:
+            return Response({'error': 'El usuario no tiene el libro'})
 
     def post(self, request, usrk, libk):
         user = Usuario.objects.get(username=usrk)
@@ -111,19 +136,32 @@ class guardarLibroView(APIView):
         except:
             #No existe el libro en guardados, lo creamos.
             libro = Libro.objects.get(ISBN=libk)
-            guard = Guardar(usuario=user, libro=libro, puntuacion=0, currentOffset=request.data["currentOffset"], leyendo=True)
+            guard = Guardar(usuario=user, libro=libro, puntuacion=0, currentOffset=request.data["currentOffset"], leyendo=False)
             guard.save()
             serializer = GuardarSerializer(guard)
             return Response(serializer.data)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class borrarLibroView(APIView):
+
+    def post(self, request, usrk, libk):
+        user = Usuario.objects.get(username=usrk)
+        serializerU = UsuarioSerializer(user)
+        usrk = serializerU.data['id']
+
+        if Guardar.objects.filter(usuario = usrk, libro = libk).exists():
+            #Caso coleccion existe
+            Guardar.objects.filter(usuario = usrk, libro = libk).delete()
+            return Response({'Correcto':'Libro eliminado de la lista'})
+        else:
+            return Response({'error': 'El usuario no tiene guardado el libro'})
         
 class guardarView(APIView):
 
     def get(self, request, usrk):
         '''
-        Devuelve las preferencias del usuario
+        Devuelve los libros del usuario
         '''
         user = Usuario.objects.get(username=usrk)
         serializerU = UsuarioSerializer(user)
@@ -159,21 +197,20 @@ class imageView (APIView):
 
 
 class coleccionView (APIView):
-    def get (self,request,username):
+    def get (self,request,username,titulo):
         '''
         Devuelve una coleccion del usuario si existe
         '''
-
-        if Coleccion.objects.filter(usuario__username=username, titulo = request.data["titulo"]).exists():
+        if Coleccion.objects.filter(usuario__username=username, titulo = titulo).exists():
             #Caso existe la coleccion
-            col = Coleccion.objects.filter(usuario__username=username, titulo = request.data["titulo"]).first()
+            col = Coleccion.objects.filter(usuario__username=username, titulo = titulo).first()
             agru = Agrupar.objects.filter(coleccion__id = col.id)
             libros = []
             for l in agru:
                 libros += [{
                     "ISBN":l.libro.ISBN, 
                     "formato":l.libro.formato,
-                    "autor": l.libro.autor,
+                    "autor": l.libro.autor.nombre,
                     "pathLibro": l.libro.pathLibro,
                     "portada": l.libro.portada,
                     "sinopsis": l.libro.sinopsis,
@@ -183,12 +220,12 @@ class coleccionView (APIView):
         else:
             return Response({'error': 'No existe coleccion'})
 
-    def put (self, request, username):
+    def put (self, request, username, titulo):
         '''
         Añade una coleccion al usuario si no existe
         '''
         idUsuario = Usuario.objects.get(username = username)
-        if Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"]).exists():
+        if Coleccion.objects.filter(usuario = idUsuario, titulo = titulo).exists():
             #Caso existe la coleccion
             #if request.data["titulo"] != "" and request.data["libros"] == "":
             #    col = Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["titulo"])
@@ -198,7 +235,7 @@ class coleccionView (APIView):
             return Response({'error': 'Ya existe coleccion'})
         else:
             #Caso no existe la coleccion
-            col = Coleccion(usuario = idUsuario, titulo = request.data["titulo"])
+            col = Coleccion(usuario = idUsuario, titulo = titulo)
             col.save()
             libros = request.data["libros"].split(",")
             for isbn in libros:
@@ -216,11 +253,12 @@ class coleccionView (APIView):
 class coleccionRenameView (APIView):
     def put (self,request,username):
         idUsuario = Usuario.objects.get(username = username)
-        if Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["oldTitulo"]).exists():
+        idU = idUsuario.id
+        if Coleccion.objects.filter(usuario = idU, titulo = request.data["oldTitulo"]).exists():
             #Caso existe la coleccion
             if request.data["newTitulo"] != "" :
                 #Caso nuevo título no es vacio
-                col = Coleccion.objects.filter(usuario = idUsuario, titulo = request.data["oldTitulo"]).first()
+                col = Coleccion.objects.filter(usuario = idU, titulo = request.data["oldTitulo"]).first()
                 col.titulo = request.data["newTitulo"] 
                 col.save()
                 return Response({'Correcto':'Coleccion renombrada'})
@@ -237,6 +275,14 @@ class coleccionDeleteView (APIView):
             return Response({'Correcto':'Coleccion eliminada'})
         else:
             return Response({'error': 'No existe coleccion'})
+
+class colecctionesListView(APIView):
+
+    def get(self, request, username):
+        idUsuario = Usuario.objects.get(username = username)
+        queryset = Coleccion.objects.filter(usuario = idUsuario)
+        serializer = ColeccionesListSerializer(queryset, many = True)
+        return Response(serializer.data)
 
 
 '''
