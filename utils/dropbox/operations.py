@@ -25,7 +25,7 @@ def translate_file (file):
     split_file = file.split(".",1)
     txt_file = split_file[0]+"local.txt"
     if os.path.isfile(local_file_location+txt_file):
-        #print("---------------------------->File exist")
+        print("---------------------------->File exist")
         return  local_file_location+txt_file
     else:
         print("---------------------------->File not exist")
