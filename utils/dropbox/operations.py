@@ -45,12 +45,13 @@ def translate_file (file):
         return  local_file_location+txt_file
 
 def download_file(file):
+    print(file)
     split_file = file.split(".",1)
     txt_file = split_file[0]+"local.txt"
     if ((os.path.isfile(local_file_location +file))or(os.path.isfile(local_file_location+txt_file))):
         return True
     else:
-        dropbox_file=open(local_file_location+file,"x")
+        dropbox_file=open(local_file_location+file,"w")
         print("---------------------------->dropbox_file")
         dbx.files_download_to_file(local_file_location+file,dropbox_file_location+file)
         print("---------------------------->Descargado")
